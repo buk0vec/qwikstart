@@ -1,159 +1,65 @@
-import { component$ } from '@builder.io/qwik';
-import type { DocumentHead } from '@builder.io/qwik-city';
-import { Link } from '@builder.io/qwik-city';
+import { component$ } from "@builder.io/qwik";
+import type { DocumentHead } from "@builder.io/qwik-city";
+import { BuilderLogo } from "~/components/icons/builder";
+import { QwikLogo } from "~/components/icons/qwik";
+import { SupabaseLogo } from "~/components/icons/supabase";
+import StackBox from "~/components/stack-box/stack-box";
 
 export default component$(() => {
   return (
-    <div>
-      <h1>
-        Welcome to Qwik <span class="lightning">⚡️</span>
+    <div class="mx-4">
+      <h1 class="text-center font-extrabold tracking-tight text-6xl my-4">
+        Make your new fast SaaS,&nbsp;<i>faster.</i>
       </h1>
-
-      <ul>
-        <li>
-          Check out the <code>src/routes</code> directory to get started.
-        </li>
-        <li>
-          Add integrations with <code>npm run qwik add</code>.
-        </li>
-        <li>
-          More info about development in <code>README.md</code>
-        </li>
-      </ul>
-
-      <h2>Commands</h2>
-
-      <table class="commands">
-        <tbody>
-          <tr>
-            <td>
-              <code>npm run dev</code>
-            </td>
-            <td>Start the dev server and watch for changes.</td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run preview</code>
-            </td>
-            <td>Production build and start preview server.</td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run build</code>
-            </td>
-            <td>Production build.</td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run qwik add</code>
-            </td>
-            <td>Select an integration to add.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>Add Integrations</h2>
-
-      <table class="commands">
-        <tbody>
-          <tr>
-            <td>
-              <code>npm run qwik add azure-swa</code>
-            </td>
-            <td>
-              <a href="https://learn.microsoft.com/azure/static-web-apps/overview" target="_blank">
-                Azure Static Web Apps
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run qwik add cloudflare-pages</code>
-            </td>
-            <td>
-              <a href="https://developers.cloudflare.com/pages" target="_blank">
-                Cloudflare Pages Server
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run qwik add express</code>
-            </td>
-            <td>
-              <a href="https://expressjs.com/" target="_blank">
-                Nodejs Express Server
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run qwik add netlify-edge</code>
-            </td>
-            <td>
-              <a href="https://docs.netlify.com/" target="_blank">
-                Netlify Edge Functions
-              </a>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <code>npm run qwik add vercel-edge</code>
-            </td>
-            <td>
-              <a href="https://vercel.com/docs/concepts/get-started" target="_blank">
-                Vercel Edge Functions
-              </a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2>Community</h2>
-
-      <ul>
-        <li>
-          <span>Questions or just want to say hi? </span>
-          <a href="https://qwik.builder.io/chat" target="_blank">
-            Chat on discord!
-          </a>
-        </li>
-        <li>
-          <span>Follow </span>
-          <a href="https://twitter.com/QwikDev" target="_blank">
-            @QwikDev
-          </a>
-          <span> on Twitter</span>
-        </li>
-        <li>
-          <span>Open issues and contribute on </span>
-          <a href="https://github.com/BuilderIO/qwik" target="_blank">
-            GitHub
-          </a>
-        </li>
-        <li>
-          <span>Watch </span>
-          <a href="https://qwik.builder.io/media/" target="_blank">
-            Presentations, Podcasts, Videos, etc.
-          </a>
-        </li>
-      </ul>
-      <Link class="mindblow" href="/flower/">
-        Blow my mind 🤯
-      </Link>
-      <Link class="todolist" href="/todolist/">
-        TODO demo 📝
-      </Link>
+      <p class="text-center text-xl mb-8">
+        Qwik SaaS Starter leverages both bleeding-edge and battle-tested
+        technologies to make it easier to take your business from and idea to a
+        fully-functioning SaaS that stands out on the modern web.
+      </p>
+      <h2 class="text-center font-extrabold text-4xl mb-4">
+        Our (default) stack
+      </h2>
+      <div class="flex lg:flex-row flex-col justify-center items-center lg:items-stretch gap-2">
+        <StackBox
+          title="Qwik"
+          content="Deliver your product with the quickest web framework available (no pun intended). Qwik brings performance, SEO, 
+          and everything else you would want in a web framework."
+        >
+          <QwikLogo />
+        </StackBox>
+        <StackBox
+          title="Builder.io"
+          content="Low code? No problem. Manage your components and build your pages with Builder.io's visual builder and CMS."
+        >
+          <BuilderLogo />
+        </StackBox>
+        <StackBox
+          title="Supabase"
+          content="Need a database? Authentication? Storage? Supabase gives you all three, which you can either host yourself or on Supabase's cloud platform."
+        >
+          <SupabaseLogo />
+        </StackBox>
+      </div>
+      <div class="flex flex-row justify-center my-4 gap-4">
+        <h2 class="font-bold text-3xl">Plus some other goodies: </h2>
+        <ul class="[&>li]:font-bold [&>li]:text-2xl list-inside">
+          <li>Tailwind</li>
+          <li>Stripe</li>
+          <li>Partytown</li>
+          <li>Microsoft Clarity</li>
+          <li>... and more to come!</li>
+        </ul>
+      </div>
     </div>
   );
 });
 
 export const head: DocumentHead = {
-  title: 'Welcome to Qwik',
+  title: "Welcome to Qwik",
   meta: [
     {
-      name: 'description',
-      content: 'Qwik site description',
+      name: "description",
+      content: "Qwik site description",
     },
   ],
 };

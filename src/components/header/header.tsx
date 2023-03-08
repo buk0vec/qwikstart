@@ -1,46 +1,23 @@
-import { component$, useStylesScoped$ } from '@builder.io/qwik';
-import { QwikLogo } from '../icons/qwik';
-import styles from './header.css?inline';
+import { component$ } from "@builder.io/qwik";
 
 export default component$(() => {
-  useStylesScoped$(styles);
-
   return (
-    <header>
+    <header class="flex flex-row justify-between mx-4 mt-4 content-baseline">
       <div class="logo">
-        <a href="https://qwik.builder.io/" target="_blank" title="qwik" rel="noopener">
-          <QwikLogo />
+        <a href="/" title="home" class="text-3xl text-black font-bold">
+          Qwik SaaS Starter
         </a>
       </div>
-      <ul>
-        <li>
-          <a
-            href="https://qwik.builder.io/docs/components/overview/"
-            target="_blank"
-            rel="noopener"
-          >
-            Docs
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://qwik.builder.io/examples/introduction/hello-world/"
-            target="_blank"
-            rel="noopener"
-          >
-            Examples
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://qwik.builder.io/tutorial/welcome/overview/"
-            target="_blank"
-            rel="noopener"
-          >
-            Tutorials
-          </a>
-        </li>
-      </ul>
+      <nav>
+        <ul class="flex flex-row gap-4 content-baseline align-bottom">
+          <li>
+            <a href="/signup">Sign up</a>
+          </li>
+          <li>
+            <a href="/login">Login</a>
+          </li>
+        </ul>
+      </nav>
     </header>
   );
 });

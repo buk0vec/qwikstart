@@ -1,5 +1,6 @@
 import { component$ } from "@builder.io/qwik";
 
+/** Header component shown across all pages */
 export default component$(() => {
   return (
     <header class="flex flex-row justify-between mx-4 mt-4 content-baseline">

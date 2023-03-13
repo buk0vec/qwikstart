@@ -1,3 +1,8 @@
+/**
+ * stack-box.tsx 
+ * A simple component to show the different parts of the stack
+ */
+
 import { Slot, component$ } from "@builder.io/qwik";
 
 interface StackBoxProps {

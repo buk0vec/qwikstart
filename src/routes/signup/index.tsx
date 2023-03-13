@@ -1,8 +1,7 @@
 /*
   login/index.tsx
-  The page for users to log in
+  The page where users can create an account
  */
-
 import { component$, useTask$ } from "@builder.io/qwik";
 import {
   type DocumentHead,
@@ -13,46 +12,62 @@ import {
   useNavigate,
 } from "@builder.io/qwik-city";
 
-/** Action to login a user with Supabase. */
-export const useLogin = globalAction$(
+/**
+ * Server-side action that validates sign-up data and creates a new account.
+ */
+export const useSignup = globalAction$(
   (user) => {
-    if (user.email === "foo@bar.com" && user.password === "foobar") {
-      return {
-        success: true,
-      }
-    } else {
+    if (user.password.length < 6) {
       return {
         success: false,
-        reason: "Invalid email and/or password",
+        reason: "Password must be at least 6 characters long",
       };
     }
+    return {
+      success: true,
+      reason: "",
+    };
   },
   zod$({
+    name: z.string(),
     email: z.string(),
     password: z.string(),
   })
 );
 
 export default component$(() => {
-  const action = useLogin();
+  const action = useSignup();
   const nav = useNavigate();
 
   /*
-    Listen for successful login to navigate.
+    Listen for successful signup to navigate.
     Currently doing this because Qwik doesn't typegen correctly when using redirect()
     on server side.
   */
   useTask$(({ track }) => {
-    track(() => action.value?.success)
+    track(() => action.value?.success);
     if (action.value?.success) {
-      nav('/dashboard')
+      nav("/dashboard");
     }
-  })
+  });
 
   return (
     <div class="m-4">
-      <h1 class="font-semibold text-4xl text-center mb-4">Login to Qwik SaaS Starter</h1>
+      <h1 class="font-semibold text-4xl text-center mb-4">
+        Sign up for Qwik SaaS Starter
+      </h1>
       <Form action={action} class="flex flex-col items-center">
+        <label for="name" class="mb-4">
+          Name
+          <input
+            type="text"
+            name="name"
+            placeholder="Qwik Dev"
+            class="rounded-md block"
+            value={action.formData?.get("name")}
+            required={true}
+          />
+        </label>
         <label for="email" class="mb-4">
           Email
           <input
@@ -79,10 +94,10 @@ export default component$(() => {
         </div>
       </Form>
       {action.value?.success === false && (
-        <p class="text-center text-red-600">{action.value.reason}</p>
+        <p class="text-center text-red-600">{action.value?.reason}</p>
       )}
       {action.value?.success === true && (
-        <p class="text-center ">Success! Logging in...</p>
+        <p class="text-center ">Success! Redirecting...</p>
       )}
     </div>
   );
@@ -90,11 +105,11 @@ export default component$(() => {
 
 /** Meta */
 export const head: DocumentHead = {
-  title: "Login",
+  title: "Sign Up",
   meta: [
     {
       name: "description",
-      content: "Login page",
+      content: "Sign up page",
     },
   ],
 };

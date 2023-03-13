@@ -1,3 +1,8 @@
+/**
+ * index.tsx
+ * The home page
+ */
+
 import { component$ } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import { BuilderLogo } from "~/components/icons/builder";
@@ -13,7 +18,7 @@ export default component$(() => {
       </h1>
       <p class="text-center text-xl mb-8">
         Qwik SaaS Starter leverages both bleeding-edge and battle-tested
-        technologies to make it easier to take your business from and idea to a
+        technologies to make it easier to take your business from an idea to a
         fully-functioning SaaS that stands out on the modern web.
       </p>
       <h2 class="text-center font-extrabold text-4xl mb-4">

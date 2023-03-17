@@ -1,6 +1,6 @@
 {
-  "name": "my-qwik-basic-starter",
-  "description": "App with Routing built-in (recommended)",
+  "name": "qwik-saas-boilerplate",
+  "description": "A boilerplate for building a SaaS with Qwik",
   "engines": {
     "node": ">=15.0.0"
   },
@@ -13,6 +13,9 @@
     "deploy": "echo 'Run \"npm run qwik add\" to install a server adapter'",
     "dev": "vite --mode ssr",
     "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
+    "db.start": "supabase start",
+    "db.types": "supabase gen types typescript --local > src/utils/supabaseTypes.ts",
+    "db.stop": "supabase stop",
     "fmt": "prettier --write .",
     "fmt.check": "prettier --check .",
     "lint": "eslint \"src/**/*.ts*\"",

@@ -36,3 +36,10 @@ lerna-debug.log*
 # Yarn
 .yarn/*
 !.yarn/releases
+
+# env
+.env
+.env.development
+
+# supabase
+supabase/migrations

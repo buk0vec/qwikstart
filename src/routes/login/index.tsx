@@ -3,56 +3,57 @@
   The page for users to log in
  */
 
-import { component$, useTask$ } from "@builder.io/qwik";
-import {
-  type DocumentHead,
-  Form,
-  globalAction$,
-  zod$,
-  z,
-  useNavigate,
-} from "@builder.io/qwik-city";
+import { component$, $, useStore } from "@builder.io/qwik";
+import { type RequestHandler, type DocumentHead } from "@builder.io/qwik-city";
+import { unauthedGuard } from "~/utils/guards";
+import { supabase } from "~/utils/supabaseClient";
 
-/** Action to login a user with Supabase. */
-export const useLogin = globalAction$(
-  (user) => {
-    if (user.email === "foo@bar.com" && user.password === "foobar") {
-      return {
-        success: true,
-      }
-    } else {
-      return {
-        success: false,
-        reason: "Invalid email and/or password",
-      };
-    }
-  },
-  zod$({
-    email: z.string(),
-    password: z.string(),
-  })
-);
+export const onRequest: RequestHandler = async (event) => {
+  // Redirect to dashboard if logged in
+  unauthedGuard(event, '/dashboard')
+}
+
 
 export default component$(() => {
-  const action = useLogin();
-  const nav = useNavigate();
+  const status = useStore<{
+    valid?: boolean;
+    message?: string;
+    loading: boolean;
+  }>({
+    valid: undefined,
+    message: undefined,
+    loading: false,
+  });
 
-  /*
-    Listen for successful login to navigate.
-    Currently doing this because Qwik doesn't typegen correctly when using redirect()
-    on server side.
-  */
-  useTask$(({ track }) => {
-    track(() => action.value?.success)
-    if (action.value?.success) {
-      nav('/dashboard')
+  /** Event handler for login submit. */
+  const useLogin = $(async (event: any) => {
+    status.loading = true;
+    const email = event.target.email.value as string;
+    const password = event.target.password.value as string;
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    if (error) {
+      status.valid = false;
+      status.message = error.message;
+    } else {
+      status.valid = true;
+      document.location.href = "/dashboard";
     }
-  })
+    status.loading = false;
+  });
 
   return (
     <div class="m-4">
-      <h1 class="font-semibold text-4xl text-center mb-4">Login to Qwik SaaS Starter</h1>
-      <Form action={action} class="flex flex-col items-center">
+      <h1 class="font-semibold text-4xl text-center mb-4">
+        Login to Qwik SaaS Starter
+      </h1>
+      <form
+        preventdefault:submit
+        onSubmit$={useLogin}
+        class="flex flex-col items-center"
+      >
         <label for="email" class="mb-4">
           Email
           <input
@@ -60,7 +61,6 @@ export default component$(() => {
             name="email"
             placeholder="qwik@me.com"
             class="rounded-md block"
-            value={action.formData?.get("email")}
             required={true}
           />
         </label>
@@ -75,13 +75,18 @@ export default component$(() => {
           />
         </label>
         <div class="flex flex-row gap-4 justify-center">
-          <button class="btn btn-filled-primary w-min">Login</button>
+          <button
+            class="btn btn-filled-primary w-min"
+            disabled={status.loading}
+          >
+            Login
+          </button>
         </div>
-      </Form>
-      {action.value?.success === false && (
-        <p class="text-center text-red-600">{action.value.reason}</p>
+      </form>
+      {status.valid === false && (
+        <p class="text-center text-red-600">{status.message}</p>
       )}
-      {action.value?.success === true && (
+      {status.valid === true && (
         <p class="text-center ">Success! Logging in...</p>
       )}
     </div>

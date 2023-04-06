@@ -14,7 +14,7 @@
     "dev": "vite --mode ssr",
     "dev.debug": "node --inspect-brk ./node_modules/vite/bin/vite.js --mode ssr --force",
     "db.start": "supabase start",
-    "db.types": "supabase gen types typescript --local > src/utils/supabaseTypes.ts",
+    "db.types": "supabase gen types typescript --local > ./src/utils/supabaseTypes.ts",
     "db.stop": "supabase stop",
     "fmt": "prettier --write .",
     "fmt.check": "prettier --check .",
@@ -24,8 +24,8 @@
     "qwik": "qwik"
   },
   "devDependencies": {
-    "@builder.io/qwik": "0.21.0",
-    "@builder.io/qwik-city": "0.5.3",
+    "@builder.io/qwik": "0.24.0",
+    "@builder.io/qwik-city": "0.7.0",
     "@supabase/supabase-js": "^2.10.0",
     "@tailwindcss/forms": "^0.5.3",
     "@types/eslint": "8.21.1",

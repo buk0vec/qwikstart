@@ -15,11 +15,12 @@ import {
 import { supabaseServerClient } from "~/utils/supabaseServerClient";
 import { supabase } from "~/utils/supabaseClient";
 import { unauthedGuard } from "~/utils/guards";
+import Header from "~/components/header/header";
 
 // Redirect to dashboard if logged in
 export const onRequest: RequestHandler = async (event) => {
-  unauthedGuard(event, '/dashboard')
-}
+  unauthedGuard(event, "/dashboard");
+};
 
 /**
  * Server-side action that validates sign-up data and creates a new account.
@@ -39,26 +40,31 @@ export const useSignup = globalAction$(
         reason: "Name must be at least 1 character long",
       };
     }
-    const signupResponse = await supabaseServerClient.auth.signUp({ email: user.email, password: user.password })
+    const signupResponse = await supabaseServerClient.auth.signUp({
+      email: user.email,
+      password: user.password,
+    });
     if (signupResponse.error || signupResponse.data.user === null) {
       return {
         success: false,
-        reason: signupResponse.error?.message ?? "An error has accured"
-      }
+        reason: signupResponse.error?.message ?? "An error has accured",
+      };
     }
-    const insertResponse = await supabaseServerClient.from('profiles').insert({
+    const insertResponse = await supabaseServerClient.from("profiles").insert({
       id: signupResponse.data.user.id,
-      name: user.name
-    })
+      name: user.name,
+    });
 
     if (insertResponse.error) {
       // remove newly created account before sending error response
-      const res = await supabaseServerClient.auth.admin.deleteUser(signupResponse.data.user.id)
-      console.log("Result >>> " + JSON.stringify(res))
+      const res = await supabaseServerClient.auth.admin.deleteUser(
+        signupResponse.data.user.id
+      );
+      console.log("Result >>> " + JSON.stringify(res));
       return {
         success: false,
-        reason: insertResponse.error.message
-      }
+        reason: insertResponse.error.message,
+      };
     }
 
     return {
@@ -87,72 +93,78 @@ export default component$(() => {
     // If there was a successful login, log in client-side from previously submitted formData
     if (action.value?.success) {
       // TODO: replace "as" with better validation
-      const email = action.formData?.get('email') as string | undefined;
-      const password = action.formData?.get('password') as string | undefined;
+      const email = action.formData?.get("email") as string | undefined;
+      const password = action.formData?.get("password") as string | undefined;
       if (email === undefined || password === undefined) {
         // TODO: handle error
-        console.log("somehow missing formdata")
-        return
+        console.log("somehow missing formdata");
+        return;
       }
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
       // TODO: handle error better
       if (error) {
-        console.log(error)
-        return
+        console.log(error);
+        return;
       }
       nav("/dashboard");
     }
   });
 
   return (
-    <div class="m-4">
-      <h1 class="font-semibold text-4xl text-center mb-4">
-        Sign up for Qwik SaaS Starter
-      </h1>
-      <Form action={action} class="flex flex-col items-center">
-        <label for="name" class="mb-4">
-          Name
-          <input
-            type="text"
-            name="name"
-            placeholder="Qwik Dev"
-            class="rounded-md block"
-            value={action.formData?.get("name")}
-            required={true}
-          />
-        </label>
-        <label for="email" class="mb-4">
-          Email
-          <input
-            type="email"
-            name="email"
-            placeholder="qwik@me.com"
-            class="rounded-md block"
-            value={action.formData?.get("email")}
-            required={true}
-          />
-        </label>
-        <label for="password" class="mb-4">
-          Password
-          <input
-            type="password"
-            name="password"
-            placeholder="•••••••"
-            class="rounded-md block"
-            required={true}
-          />
-        </label>
-        <div class="flex flex-row gap-4 justify-center">
-          <button class="btn btn-filled-primary w-min">Login</button>
-        </div>
-      </Form>
-      {action.value?.success === false && (
-        <p class="text-center text-red-600">{action.value?.reason}</p>
-      )}
-      {action.value?.success === true && (
-        <p class="text-center ">Success! Redirecting...</p>
-      )}
-    </div>
+    <>
+      <Header />
+      <div class="m-4">
+        <h1 class="font-semibold text-4xl text-center mb-4">
+          Sign up for Qwik SaaS Starter
+        </h1>
+        <Form action={action} class="flex flex-col items-center">
+          <label for="name" class="mb-4">
+            Name
+            <input
+              type="text"
+              name="name"
+              placeholder="Qwik Dev"
+              class="rounded-md block"
+              value={action.formData?.get("name")}
+              required={true}
+            />
+          </label>
+          <label for="email" class="mb-4">
+            Email
+            <input
+              type="email"
+              name="email"
+              placeholder="qwik@me.com"
+              class="rounded-md block"
+              value={action.formData?.get("email")}
+              required={true}
+            />
+          </label>
+          <label for="password" class="mb-4">
+            Password
+            <input
+              type="password"
+              name="password"
+              placeholder="•••••••"
+              class="rounded-md block"
+              required={true}
+            />
+          </label>
+          <div class="flex flex-row gap-4 justify-center">
+            <button class="btn btn-filled-primary w-min">Login</button>
+          </div>
+        </Form>
+        {action.value?.success === false && (
+          <p class="text-center text-red-600">{action.value?.reason}</p>
+        )}
+        {action.value?.success === true && (
+          <p class="text-center ">Success! Redirecting...</p>
+        )}
+      </div>
+    </>
   );
 });
 

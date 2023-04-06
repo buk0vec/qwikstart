@@ -4,21 +4,19 @@
  */
 
 import { component$ } from "@builder.io/qwik";
-import { routeLoader$ } from "@builder.io/qwik-city";
-
-export const useUserData = routeLoader$(async ({ sharedMap }) => {
-  // TODO: make safe
-  const data = await sharedMap.get('supabase').from('profiles').select('*').maybeSingle();
-  return data.data
-})
+import { useUserData } from "./layout";
 
 export default component$(() => {
   const query = useUserData();
 
   return (
-    <div class="m-4">
-      <h1 class="font-semibold text-2xl">Dashboard</h1>
-      <p>Data: {query.value?.name}</p>
+    <div class='overflow-y-scroll h-screen w-full'>
+      <header class="h-[64px] border-b border-zinc-400 flex items-center px-4">
+        <h1 class="font-semibold text-3xl tracking-tight">Dashboard</h1>
+      </header>
+      <div class="mx-4 mt-4">
+        <h2 class='text-4xl'>Hello, <b>{query.value?.name}</b></h2>
+      </div>
     </div>
   );
 });

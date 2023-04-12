@@ -6,7 +6,7 @@ import {
   getBuilderSearchParams,
 } from "@builder.io/sdk-qwik";
 
-export const BUILDER_PUBLIC_API_KEY = import.meta.env.VITE_BUILDER_API_KEY; // <-- Add your Public API KEY here
+export const BUILDER_PUBLIC_API_KEY = import.meta.env.VITE_BUILDER_API_KEY;
 export const BUILDER_MODEL = "page";
 
 // Use Qwik City's `useBuilderContent` to get your content from Builder.

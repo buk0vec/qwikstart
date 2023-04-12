@@ -10,6 +10,9 @@ dotenv.config({ path: "./.env.development" });
 export default defineConfig(() => {
   return {
     plugins: [qwikCity(), qwikVite(), tsconfigPaths()],
+    define: {
+      'process.env': JSON.stringify(process.env) // <== HERE
+    },
     preview: {
       headers: {
         'Cache-Control': 'public, max-age=600',

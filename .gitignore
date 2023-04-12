@@ -43,3 +43,6 @@ lerna-debug.log*
 
 # supabase
 supabase/migrations
+
+# Vercel
+.vercel

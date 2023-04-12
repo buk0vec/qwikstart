@@ -26,6 +26,7 @@
   "devDependencies": {
     "@builder.io/qwik": "0.24.0",
     "@builder.io/qwik-city": "0.7.0",
+    "@builder.io/sdk-qwik": "^0.2.0",
     "@supabase/supabase-js": "^2.10.0",
     "@tailwindcss/forms": "^0.5.3",
     "@types/eslint": "8.21.1",

@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@builder.io/qwik': 0.24.0
   '@builder.io/qwik-city': 0.7.0
+  '@builder.io/sdk-qwik': ^0.2.0
   '@supabase/supabase-js': ^2.10.0
   '@tailwindcss/forms': ^0.5.3
   '@types/eslint': 8.21.1
@@ -30,11 +31,12 @@ specifiers:
 devDependencies:
   '@builder.io/qwik': 0.24.0_undici@5.20.0
   '@builder.io/qwik-city': 0.7.0_@builder.io+qwik@0.24.0
+  '@builder.io/sdk-qwik': 0.2.0_@builder.io+qwik@0.24.0
   '@supabase/supabase-js': 2.10.0
   '@tailwindcss/forms': 0.5.3_tailwindcss@3.2.7
   '@types/eslint': 8.21.1
   '@types/node': 18.14.6
-  '@types/node-fetch': 2.6.2
+  '@types/node-fetch': 2.6.3
   '@typescript-eslint/eslint-plugin': 5.54.0_6mj2wypvdnknez7kws2nfdgupi
   '@typescript-eslint/parser': 5.54.0_ycpbpc6yetojsgtrx3mwntkhsu
   autoprefixer: 10.4.13_postcss@8.4.21
@@ -80,6 +82,14 @@ packages:
       undici: ^5.14.0
     dependencies:
       undici: 5.20.0
+    dev: true
+
+  /@builder.io/sdk-qwik/0.2.0_@builder.io+qwik@0.24.0:
+    resolution: {integrity: sha512-v5J87nKLTWdLsrvheA19NSvSRtf2o0kslBI+QXuTXZCawLJAEwJy7rS8A3sU22qGNuCvVWuTXG9aq6dsxY4iHw==}
+    peerDependencies:
+      '@builder.io/qwik': '>=0.13.3'
+    dependencies:
+      '@builder.io/qwik': 0.24.0_undici@5.20.0
     dev: true
 
   /@cush/relative/1.0.0:
@@ -488,8 +498,8 @@ packages:
     resolution: {integrity: sha512-iiUgKzV9AuaEkZqkOLDIvlQiL6ltuZd9tGcW3gwpnX8JbuiuhFlEGmmFXEXkN50Cvq7Os88IY2v0dkDqXYWVgA==}
     dev: true
 
-  /@types/node-fetch/2.6.2:
-    resolution: {integrity: sha512-DHqhlq5jeESLy19TYhLakJ07kNumXWjcDdxXsLUMJZ6ue8VZJj4kLPQVE/2mdHh3xZziNF1xppu5lwmS53HR+A==}
+  /@types/node-fetch/2.6.3:
+    resolution: {integrity: sha512-ETTL1mOEdq/sxUtgtOhKjyB2Irra4cjxksvcMUR5Zr4n+PxVhsCD9WS46oPbHL3et9Zde7CNRr+WUNlcHvsX+w==}
     dependencies:
       '@types/node': 18.14.6
       form-data: 3.0.1

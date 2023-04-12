@@ -11,7 +11,6 @@ CREATE POLICY "Users can insert own profile" ON profiles
   FOR INSERT
   WITH CHECK (id = auth.uid());
 
--- TODO: Eventually create "teams" where team members can view each other's profiles
 CREATE POLICY "Users can view own profile" ON profiles
   FOR SELECT
   USING (id = auth.uid());

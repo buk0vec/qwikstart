@@ -9,13 +9,14 @@ import {
   globalAction$,
   zod$,
   z,
-  useNavigate,
   type RequestHandler,
+  useNavigate,
 } from "@builder.io/qwik-city";
 import { supabaseServerClient } from "~/utils/supabaseServerClient";
 import { supabase } from "~/utils/supabaseClient";
 import { unauthedGuard } from "~/utils/guards";
 import Header from "~/components/header/header";
+import zod from 'zod';
 
 // Redirect to dashboard if logged in
 export const onRequest: RequestHandler = async (event) => {
@@ -57,20 +58,18 @@ export const useSignup = globalAction$(
 
     if (insertResponse.error) {
       // remove newly created account before sending error response
-      const res = await supabaseServerClient.auth.admin.deleteUser(
+      await supabaseServerClient.auth.admin.deleteUser(
         signupResponse.data.user.id
       );
-      console.log("Result >>> " + JSON.stringify(res));
       return {
         success: false,
         reason: insertResponse.error.message,
       };
     }
-
     return {
       success: true,
-      reason: "",
-    };
+      reason: ""
+    }
   },
   zod$({
     name: z.string(),
@@ -82,31 +81,32 @@ export const useSignup = globalAction$(
 export default component$(() => {
   const action = useSignup();
   const nav = useNavigate();
-
   /*
-    Listen for successful signup to navigate.
-    Currently doing this because Qwik doesn't typegen correctly when using redirect()
-    on server side.
+    Listen for successful signup to log in and navigate.
   */
   useTask$(async ({ track }) => {
     track(() => action.value?.success);
     // If there was a successful login, log in client-side from previously submitted formData
-    if (action.value?.success) {
-      // TODO: replace "as" with better validation
-      const email = action.formData?.get("email") as string | undefined;
-      const password = action.formData?.get("password") as string | undefined;
-      if (email === undefined || password === undefined) {
-        // TODO: handle error
-        console.log("somehow missing formdata");
+    console.log("TRACKED ACTION VALUE: ", action.value?.success)
+    if (action.value?.success && action.formData) {
+      const schema = zod.object({
+        email: zod.string().email(),
+        password: zod.string().min(6)
+      })
+      const form = Object.fromEntries(action.formData)
+      const parsed = schema.safeParse(form)
+      if (!parsed.success) {
+        action.value.reason = "Failed to log in. Try logging in manually"
         return;
       }
+      const { email, password } = parsed.data;
+      console.log(email, password)
       const { error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
-      // TODO: handle error better
       if (error) {
-        console.log(error);
+        action.value.reason = "Failed to log in. Try logging in manually"
         return;
       }
       nav("/dashboard");
@@ -154,7 +154,7 @@ export default component$(() => {
             />
           </label>
           <div class="flex flex-row gap-4 justify-center">
-            <button class="btn btn-filled-primary w-min">Login</button>
+            <button class="btn btn-filled-primary">Create Account</button>
           </div>
         </Form>
         {action.value?.success === false && (

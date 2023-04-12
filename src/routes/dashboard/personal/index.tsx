@@ -4,23 +4,22 @@ import { supabase } from "~/utils/supabaseClient";
 
 export default component$(() => {
   const user = useUserData();
-  const name = useSignal(user.value?.name);
-  const nameInput = useSignal(user.value?.name);
+  const name = useSignal(user.value?.data?.name);
+  const nameInput = useSignal(user.value?.data?.name);
   const showNameEdit = useSignal(false);
 
   useTask$(({ track }) => {
     track(() => user);
-    name.value = user.value?.name;
+    name.value = user.value?.data?.name;
   });
 
   const onNameChange = $(async () => {
-    // TODO: Validate name better
     if (nameInput.value && nameInput.value.length > 0) {
-      // TODO: validate operation
+      // TODO: validate operation + display message on error
       await supabase
         .from("profiles")
         .update({ name: nameInput.value })
-        .eq("id", user.value?.id);
+        .eq("id", user.value?.data?.id);
       location.reload();
     }
   });

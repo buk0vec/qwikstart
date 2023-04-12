@@ -15,7 +15,7 @@ export default component$(() => {
         <h1 class="font-semibold text-3xl tracking-tight">Dashboard</h1>
       </header>
       <div class="mx-4 mt-4">
-        <h2 class='text-4xl'>Hello, <b>{query.value?.name}</b></h2>
+        <h2 class='text-4xl'>Hello, <b>{query.value?.data?.name}</b></h2>
       </div>
     </div>
   );

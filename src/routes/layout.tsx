@@ -18,15 +18,20 @@ export const onRequest: RequestHandler = async ({ sharedMap, cookie }) => {
   const refreshToken = cookie.get("my-refresh-token");
   const accessToken = cookie.get("my-access-token");
 
+
   if (refreshToken && accessToken) {
-    // TODO: error handle for when this fails. probably wipe cookies.
-    await supabaseClient.auth.setSession({
+    const { error } = await supabaseClient.auth.setSession({
       refresh_token: refreshToken.value,
       access_token: accessToken.value,
     });
+    // delete bad cookies on error
+    if (error) {
+      cookie.delete("my-refresh-token")
+      cookie.delete("my-access-token")
+    }
   }
   sharedMap.set("supabase", supabaseClient);
-  // TODO: get this value w/ error handling
+  /** get the session. if there's a gotrue error, we ignore it b/c session should be null anyways */
   sharedMap.set(
     "session",
     (await supabaseClient.auth.getSession()).data.session

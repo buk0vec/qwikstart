@@ -14,13 +14,12 @@ export const onRequest: RequestHandler = async (event) => {
 };
 
 export const useUserData = routeLoader$(async ({ sharedMap }) => {
-  // TODO: make safe
-  const data = await sharedMap
+  const req = await sharedMap
     .get("supabase")
     .from("profiles")
     .select("*")
     .maybeSingle();
-  return data.data;
+  return req;
 });
 
 export default component$(() => {
@@ -55,7 +54,6 @@ export default component$(() => {
           <li
             class="p-2 m-2 text-lg rounded-md hover:bg-zinc-200 transition-colors cursor-pointer"
             onClick$={async () => {
-              // TODO: better sign out handler?
               await supabase.auth.signOut();
               document.location.href = "/";
             }}

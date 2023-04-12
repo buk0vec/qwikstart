@@ -34,7 +34,7 @@ export default component$(() => {
                 <li>
                   <button
                     onClick$={async () => {
-                      // TODO: Graceful sign-out
+                      /** If this errs, either the current session is bad or the internet/endpoint crapped out. Redirect either way */
                       await supabase.auth.signOut();
                       document.location.href = "/";
                     }}

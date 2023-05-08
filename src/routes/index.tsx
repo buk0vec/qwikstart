@@ -26,9 +26,9 @@ export default component$(() => {
     return getContent({
       model: BUILDER_MODEL,
       apiKey: BUILDER_PUBLIC_API_KEY,
-      options: getBuilderSearchParams(location.query),
+      options: getBuilderSearchParams(location.url.searchParams),
       userAttributes: {
-        urlPath: location.pathname || "/", // <-- Use for targeting by URL
+        urlPath: location.url.pathname || "/", // <-- Use for targeting by URL
       },
     });
   });
